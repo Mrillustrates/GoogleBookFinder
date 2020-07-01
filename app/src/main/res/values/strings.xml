@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GoogleBookFinder</string>
+    <string name ="search_books"> Search Books</string>
+</resources>
