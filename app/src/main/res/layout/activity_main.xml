@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:queryHint="@string/search_books"
         android:iconifiedByDefault="false"
+        android:id= "@+id/search_book"
        />
 </LinearLayout>
