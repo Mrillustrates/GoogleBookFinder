@@ -13,6 +13,11 @@ public class Book {
         publishedDate = queryPublishedDate;
     }
 
+    public Book(String queryTitile, String queryPublishedDate){
+        title = queryTitile;
+        publishedDate= queryPublishedDate;
+    }
+
     public String getTitle() {
         return title;
     }

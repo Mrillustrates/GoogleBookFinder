@@ -76,7 +76,7 @@ public class QueryUtils {
 
         } catch (IOException e) {
             // TODO: Handle the exception
-            Log.e(LOG_TAG, "Problem retrieving the Earthquake JSON results", e);
+            Log.e(LOG_TAG, "Problem retrieving the Book JSON results", e);
 
 
         } finally {
@@ -145,10 +145,11 @@ public class QueryUtils {
                 String publishedDate = properties.getString("publishedDate");
 
                 Book addedBook = new Book (title, authors, publishedDate);
+
                 books.add(addedBook);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Problem parsing the earthquake JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the book results", e);
         }
         //Return the list of earthquakes
         return books;

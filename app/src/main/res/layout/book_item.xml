@@ -16,10 +16,12 @@
         tools:text = "Charlotte's Webb"/>
 
     <TextView
+        android:id = "@+id/book_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text = "Malcolm Warner"/>
     <TextView
+        android:id = "@+id/book_publication_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text = "2001"/>
