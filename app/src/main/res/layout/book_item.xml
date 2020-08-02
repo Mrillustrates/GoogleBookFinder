@@ -6,23 +6,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_marginLeft="16dp"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="12dp">
 
 
     <TextView
         android:id= "@+id/book_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text = "Charlotte's Webb"/>
+        tools:text = "Charlotte's Webb"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="baskerville"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id = "@+id/book_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text = "Malcolm Warner"/>
+        tools:text = "Malcolm Warner"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        />
     <TextView
         android:id = "@+id/book_publication_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text = "2001"/>
+        tools:text = "2001"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-smallcaps"/>
 </LinearLayout>

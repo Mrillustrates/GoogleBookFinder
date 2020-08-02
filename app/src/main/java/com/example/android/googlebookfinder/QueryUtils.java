@@ -71,6 +71,8 @@ public class QueryUtils {
             }
             else {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                // newly added /
+                return null;
             }
 
 
@@ -95,6 +97,7 @@ public class QueryUtils {
      * Convert the {@link InputStream} into a String which contains the
      * whole JSON response from the server.
      */
+
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -138,14 +141,20 @@ public class QueryUtils {
 
             for(int i = 0; i < bookArray.length(); i++ ){
                 JSONObject currentBook = bookArray.getJSONObject(i);
-                JSONObject properties = currentBook.getJSONObject("volumeInfo");
+                JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
-                String title = properties.getString("title");
-                String authors = properties.getString("authors");
-                String publishedDate = properties.getString("publishedDate");
+                String title = volumeInfo.getString("title");
+                String authors = volumeInfo.getString("authors");
+
+                if(authors.equals("")){
+                    authors = "No author provided ";
+                }
+                else{
+                    authors = volumeInfo.getString("authors");
+                }
+                String publishedDate = volumeInfo.getString("publishedDate");
 
                 Book addedBook = new Book (title, authors, publishedDate);
-
                 books.add(addedBook);
             }
         } catch (JSONException e) {
