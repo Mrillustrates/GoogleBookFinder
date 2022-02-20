@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
         super(context, 0, books);
 
     }
+
+
 
     @NonNull
     @Override
@@ -31,6 +34,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         Book currentBookItem = getItem(position);
 
 
+
         TextView defaultTitle = (TextView) listItemView.findViewById(R.id.book_title);
         defaultTitle.setText(currentBookItem.getTitle());
 
@@ -39,6 +43,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         TextView defaultPublicationDate = (TextView) listItemView.findViewById(R.id.book_publication_date);
         defaultPublicationDate.setText(currentBookItem.getPublishedDate());
+
+       ImageView defaultImageView = (ImageView) listItemView.findViewById(R.id.default_icon);
+       defaultImageView.setImageResource(R.drawable.book_icon);
+       //defaultImageView.set
+
 
         return listItemView;
     }

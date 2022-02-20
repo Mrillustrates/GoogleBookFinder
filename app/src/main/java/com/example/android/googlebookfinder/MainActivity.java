@@ -1,12 +1,15 @@
 package com.example.android.googlebookfinder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.app.LoaderManager;
 import android.content.Loader;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         final CharSequence queryBook =  bookSearch.getQuery();
 
 
-        ListView bookListView = (ListView) findViewById(R.id.list);
+        final ListView bookListView = (ListView) findViewById(R.id.list);
 
 
 
@@ -53,11 +56,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //Listview set up book listings
         bookListView.setAdapter(adapter);
 
+
+        //Sets up an empty view if no results
         emptyTextView = (TextView) findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyTextView);
 
+        //Loading icon displays while API is searched
         loadingProgressView = (ProgressBar) findViewById(R.id.loading_spinner);
+        loadingProgressView.setVisibility(View.GONE);
 
+
+
+
+        //If no connection on device inform the user
         noConnectionTextView = (TextView) findViewById(R.id.no_internet_textview);
         bookListView.setEmptyView(noConnectionTextView);
 
@@ -74,20 +85,57 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
           */
 
+
+            /*
+            On Item click Listener to route user to a Google book search to get more info on the book
+             */
+            bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String urlForBookClick = "http://www.google.com/search?tbm=bks&q=";
+
+
+                    Book currentChoice = (Book) parent.getItemAtPosition(position);
+
+                    TextView chosenBook = (TextView) view.findViewById(R.id.book_title);
+                    chosenBook.setText(currentChoice.getTitle());
+
+                    /*
+                    TODO: Let user know how to "Click a title to learn more"
+                     */
+
+                    String addedURLText = chosenBook.getText().toString();
+
+                    //Intent intent = new Intent(Intent.ACTION_VIEW);
+                   // intent.setData(Uri.parse("www.google.com"));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlForBookClick + addedURLText)));
+                }
+            });
+
+
+
+        /**
+         *\Event listener that takes the text that was searched and sends a request to the API
+         */
         bookSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
+                /*
+                If query is valid and device is online search API once results are shown give a message to use to click to learn more
+                 */
                 boolean isConnected = isNetworkConnected();
                 if(isConnected && query != null){
                     if(query.contains(" ")){
                         query = query.replace(" ", "");
                     }
-                      GOOGLE_BOOKS_REQUEST_URL= (GOOGLE_BOOKS_REQUEST_URL + query+ "&maxResults=10");
+                     GOOGLE_BOOKS_REQUEST_URL= (GOOGLE_BOOKS_REQUEST_URL + query+ "&maxResults=10");
                       // + "&maxResults=10&"+ "&callback=handleResponse"//);
-                      Toast.makeText(MainActivity.this, GOOGLE_BOOKS_REQUEST_URL, Toast.LENGTH_LONG).show();
+                    //  Toast.makeText(MainActivity.this, GOOGLE_BOOKS_REQUEST_URL, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Click a selection to learn more!", Toast.LENGTH_LONG).show();
 
                     getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
+                    loadingProgressView.setVisibility(View.VISIBLE);
                 }
 
                  else{
@@ -96,9 +144,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                      GOOGLE_BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
                      emptyTextView.setText(R.string.no_books);
 
-                 }
+                     /*
+                     TODO: Add in a cute image for no books found
+                      */
+
+
+
+                }
                     return false;
             }
+
+
 
             @Override
             public boolean onQueryTextChange(String newText) {

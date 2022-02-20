@@ -154,7 +154,7 @@ public class QueryUtils {
                 }
                 String publishedDate = volumeInfo.getString("publishedDate");
 
-                Book addedBook = new Book (title, authors, publishedDate);
+                Book addedBook = new Book (title, authors, publishedDate,R.drawable.book_icon);
                 books.add(addedBook);
             }
         } catch (JSONException e) {
