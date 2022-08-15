@@ -5,23 +5,27 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/backgroundColor"
 tools:context=".MainActivity">
 
-<SearchView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:queryHint="@string/search_books"
-    android:iconifiedByDefault="false"
-    android:id= "@+id/search_book"
-    />
+    <SearchView
+        android:id="@+id/search_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/search_books"
+
+
+        />
 
     <ListView
         android:id="@+id/list"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:divider="#22A7F0"
+        android:dividerHeight="1dp"
+        />
 
 
     <TextView

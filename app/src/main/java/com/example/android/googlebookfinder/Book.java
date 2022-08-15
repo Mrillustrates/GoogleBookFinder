@@ -9,7 +9,7 @@ public class Book {
 
     //Constructor as each book on the list will show title, author , and pub date
     public Book(String queryTitle, String queryAuthors, String queryPublishedDate, int imageResourceId){
-        title = queryTitle;
+        title = queryTitle.substring(0, Math.min(queryTitle.length(), 50));
         authors = queryAuthors;
         publishedDate = queryPublishedDate;
         mImageResourceId = imageResourceId;

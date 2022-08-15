@@ -8,8 +8,10 @@ import android.content.Loader;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int BOOK_LOADER_ID = 1;
 
     private TextView emptyTextView;
+    private ImageView emptyBookView;
     private ProgressBar loadingProgressView;
     private TextView noConnectionTextView;
 
@@ -41,14 +44,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
 
-
-
         SearchView bookSearch = (SearchView) findViewById(R.id.search_book);
-        final CharSequence queryBook =  bookSearch.getQuery();
+        final CharSequence queryBook = bookSearch.getQuery();
 
 
         final ListView bookListView = (ListView) findViewById(R.id.list);
-
 
 
         adapter = new BookAdapter(this, new ArrayList<Book>());
@@ -61,11 +61,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         emptyTextView = (TextView) findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyTextView);
 
+
+        /*emptyBookView = (ImageView) findViewById(R.id.empty_dogBook_image);
+        bookListView.setEmptyView(emptyBookView);
+        */
+
+
         //Loading icon displays while API is searched
         loadingProgressView = (ProgressBar) findViewById(R.id.loading_spinner);
         loadingProgressView.setVisibility(View.GONE);
-
-
 
 
         //If no connection on device inform the user
@@ -86,32 +90,33 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
           */
 
 
+
             /*
             On Item click Listener to route user to a Google book search to get more info on the book
              */
-            bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String urlForBookClick = "http://www.google.com/search?tbm=bks&q=";
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String urlForBookClick = "http://www.google.com/search?tbm=bks&q=";
 
 
-                    Book currentChoice = (Book) parent.getItemAtPosition(position);
+                Book currentChoice = (Book) parent.getItemAtPosition(position);
 
-                    TextView chosenBook = (TextView) view.findViewById(R.id.book_title);
-                    chosenBook.setText(currentChoice.getTitle());
+                TextView chosenBook = (TextView) view.findViewById(R.id.book_title);
+                chosenBook.setText(currentChoice.getTitle());
 
                     /*
                     TODO: Let user know how to "Click a title to learn more"
                      */
 
-                    String addedURLText = chosenBook.getText().toString();
+                String addedURLText = chosenBook.getText().toString();
 
-                    //Intent intent = new Intent(Intent.ACTION_VIEW);
-                   // intent.setData(Uri.parse("www.google.com"));
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlForBookClick + addedURLText)));
-                }
-            });
-
+                //Intent intent = new Intent(Intent.ACTION_VIEW);
+                // intent.setData(Uri.parse("www.google.com"));
+                //added order newest by 4/10
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlForBookClick + addedURLText + "orderBy=newest")));
+            }
+        });
 
 
         /**
@@ -125,35 +130,38 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 If query is valid and device is online search API once results are shown give a message to use to click to learn more
                  */
                 boolean isConnected = isNetworkConnected();
-                if(isConnected && query != null){
-                    if(query.contains(" ")){
+                if (isConnected && query != null) {
+                    if (query.contains(" ")) {
                         query = query.replace(" ", "");
                     }
-                     GOOGLE_BOOKS_REQUEST_URL= (GOOGLE_BOOKS_REQUEST_URL + query+ "&maxResults=10");
-                      // + "&maxResults=10&"+ "&callback=handleResponse"//);
+                    GOOGLE_BOOKS_REQUEST_URL = (GOOGLE_BOOKS_REQUEST_URL + query + "&maxResults=5");
+                    // + "&maxResults=10&"+ "&callback=handleResponse"//);
                     //  Toast.makeText(MainActivity.this, GOOGLE_BOOKS_REQUEST_URL, Toast.LENGTH_LONG).show();
                     Toast.makeText(MainActivity.this, "Click a selection to learn more!", Toast.LENGTH_LONG).show();
 
                     getLoaderManager().restartLoader(BOOK_LOADER_ID, null, MainActivity.this);
                     loadingProgressView.setVisibility(View.VISIBLE);
-                }
+                } else if (!isConnected) {
+                    loadingProgressView.setVisibility(View.GONE);
+                    emptyTextView.setText(R.string.no_internet);
 
-                 else{
-                     loadingProgressView.setVisibility(View.GONE);
-                     emptyTextView.setText(R.string.no_internet);
-                     GOOGLE_BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
-                     emptyTextView.setText(R.string.no_books);
+                    if (isConnected && query == null) {
+                        loadingProgressView.setVisibility(View.GONE);
+                        GOOGLE_BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+                        emptyTextView.setText(R.string.no_books);
+                        /*emptyBookView.setImageResource(R.drawable.mr_petey);
+                        emptyBookView.setVisibility(View.VISIBLE);
+                        */
 
                      /*
-                     TODO: Add in a cute image for no books found
+                     TODO: Add in a cute image for no books found -- research!!!!!!
                       */
 
 
-
+                    }
                 }
-                    return false;
+                return false;
             }
-
 
 
             @Override
@@ -164,41 +172,50 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
-    public String googleURL(String url){
-        return "https://www.googleapis.com/books/v1/volumes?q="+ (url);
+    public String googleURL(String url) {
+        return "https://www.googleapis.com/books/v1/volumes?q=" + (url);
     }
+
     @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle bundle) {
 
         return new BookLoader(this, GOOGLE_BOOKS_REQUEST_URL);
 
     }
+
     @Override
-    public void onLoadFinished(Loader<List<Book>> loader, List <Book> data){
+    public void onLoadFinished(Loader<List<Book>> loader, List<Book> data) {
         loadingProgressView.setVisibility(View.GONE);
 
 
         adapter.clear();
 
-        if(data != null && !data.isEmpty()){
+        if (data != null && !data.isEmpty()) {
             adapter.addAll(data);
-            GOOGLE_BOOKS_REQUEST_URL =  "https://www.googleapis.com/books/v1/volumes?q=";
-        }
-        else {
+            GOOGLE_BOOKS_REQUEST_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+        } else {
             emptyTextView.setText(R.string.no_books);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Book>> loader){
+    public void onLoaderReset(Loader<List<Book>> loader) {
         adapter.clear();
-        
+
     }
 
-    private boolean isNetworkConnected(){
+    private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() !=null && cm.getActiveNetworkInfo().isConnected();
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+        return true;
+
+
+    }
 
 }
+

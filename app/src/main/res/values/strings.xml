@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">GoogleBookFinder</string>
-    <string name ="search_books"> Search Books</string>
+    <string name="app_name">Find My Book </string>
+    <string name ="search_books"> Search for a Book</string>
     <string name = "no_books"> No books found</string>
     <string name = "no_internet"> No internet</string>
-    <string name = "key">  "key=AIzaSyA4IZbnt9bUnaoJzHLDYAMGjb_qCGg6SvM"</string>
+    <string name = "Create_account"> Create an account</string>
+    <string name = "Settings"> Settings </string>
+    <string name = "FAQ" > FAQ </string>
 </resources>

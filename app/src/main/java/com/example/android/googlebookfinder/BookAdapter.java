@@ -45,7 +45,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         defaultPublicationDate.setText(currentBookItem.getPublishedDate());
 
        ImageView defaultImageView = (ImageView) listItemView.findViewById(R.id.default_icon);
-       defaultImageView.setImageResource(R.drawable.book_icon);
+       defaultImageView.setImageResource(R.drawable.search_books);
        //defaultImageView.set
 
 

@@ -144,6 +144,14 @@ public class QueryUtils {
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
                 String title = volumeInfo.getString("title");
+
+                //Exploring removing duplicates
+               /* for(String title = volumeInfo.getString("title"); title.equals(title);) {
+                    title = " ";
+                })
+
+               */
+
                 String authors = volumeInfo.getString("authors");
 
                 if(authors.equals("")){
