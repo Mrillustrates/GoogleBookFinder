@@ -1,6 +1,7 @@
 package com.example.android.googlebookfinder;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -37,14 +38,18 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         TextView defaultTitle = (TextView) listItemView.findViewById(R.id.book_title);
         defaultTitle.setText(currentBookItem.getTitle());
+        defaultTitle.setTextColor(Color.parseColor("#621D1D"));
 
         TextView defaultAuthor = (TextView) listItemView.findViewById(R.id.book_author);
         defaultAuthor.setText(currentBookItem.getAuthors());
+        defaultAuthor.setTextColor(Color.parseColor("#4d0000"));
 
         TextView defaultPublicationDate = (TextView) listItemView.findViewById(R.id.book_publication_date);
-        defaultPublicationDate.setText(currentBookItem.getPublishedDate());
+        defaultPublicationDate.setText("Published: " + currentBookItem.getPublishedDate());
+        defaultPublicationDate.setTextColor(Color.parseColor("#4d0000"));
 
-       ImageView defaultImageView = (ImageView) listItemView.findViewById(R.id.default_icon);
+
+        ImageView defaultImageView = (ImageView) listItemView.findViewById(R.id.default_icon);
        defaultImageView.setImageResource(R.drawable.search_books);
        //defaultImageView.set
 

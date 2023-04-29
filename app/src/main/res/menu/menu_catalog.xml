@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="@string/Create_account"/>
-    <item android:title= "@string/FAQ"/>
+    <item android:title= "@string/login"/>
     <item android:title = "@string/Settings"/>
 
 </menu>

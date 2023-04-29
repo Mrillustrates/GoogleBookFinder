@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 chosenBook.setText(currentChoice.getTitle());
 
                     /*
-                    TODO: Let user know how to "Click a title to learn more"
+
                      */
 
                 String addedURLText = chosenBook.getText().toString();
@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 //Intent intent = new Intent(Intent.ACTION_VIEW);
                 // intent.setData(Uri.parse("www.google.com"));
                 //added order newest by 4/10
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlForBookClick + addedURLText + "orderBy=newest")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlForBookClick + addedURLText )));
+                //orderBy=newest not applicable
             }
         });
 
@@ -216,6 +217,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     }
-
 }
 

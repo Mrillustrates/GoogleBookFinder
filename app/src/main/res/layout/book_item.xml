@@ -64,10 +64,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/book_title"
+            android:layout_alignLeft="@+id/book_title"
             android:fontFamily="Open Sans"
             android:paddingLeft="20dp"
             android:textColor="#22A7F0"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             tools:text="2001" />
     </RelativeLayout>

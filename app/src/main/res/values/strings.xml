@@ -6,4 +6,5 @@
     <string name = "Create_account"> Create an account</string>
     <string name = "Settings"> Settings </string>
     <string name = "FAQ" > FAQ </string>
+    <string name = "login"> Login</string>
 </resources>
